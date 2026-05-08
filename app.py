@@ -139,3 +139,25 @@ if st.session_state.answered:
         st.session_state.options = None
         st.session_state.answered = False
         st.rerun()
+
+st.markdown("---")
+st.header("📚 登録単語一覧")
+
+search = st.text_input("検索")
+
+show_df = df
+
+if search:
+    show_df = df[
+        df["korean"].str.contains(search, case=False, na=False)
+        | df["japanese"].str.contains(search, case=False, na=False)
+        | df["romanization"].str.contains(search, case=False, na=False)
+    ]
+
+st.write(f"{len(show_df)}件")
+
+st.dataframe(
+    show_df,
+    use_container_width=True,
+    hide_index=True
+)
